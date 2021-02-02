@@ -94,6 +94,26 @@ func main() {
 		}
 	}
 
+	fmt.Println()
+	log.Infof("Login to Expo")
+	{
+		if err := expo.login(cfg.UserName, cfg.Password); err != nil {
+			return fmt.Errorf("failed to log in to your provided Expo account: %s", err)
+		}
+	}
+	//
+	// Logging out the user from the Expo account (even if it fails)
+	defer func() {
+		fmt.Println()
+		log.Infof("Logging out from Expo")
+		{
+			if err := expo.logout(); err != nil {
+				log.Warnf("Failed to log out from your Expo account: %s", err)
+			}
+		}
+	}()
+
+
 	//
 	// Eject project via the Expo CLI
 	fmt.Println()
